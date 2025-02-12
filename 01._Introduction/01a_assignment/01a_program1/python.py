@@ -1,45 +1,23 @@
-import json
-import xml.etree.ElementTree as ET
-import csv
-import yaml
+# main.py
+from file_parser import parse_json, parse_xml, parse_csv, parse_txt, parse_yaml
 
-# 1 read and parse the json file
-with open('car.json', 'r') as file:
-    car = json.load(file)
+def main():
+    print("Parsed JSON data:")
+    print(parse_json('car.json'))
 
-# print the data
-print("Parsed JSON data:")
-print(car)
+    print("\nParsed XML data:")
+    root = parse_xml('book.xml')
+    for child in root:
+        print(f"Tag: {child.tag}, text: {child.text}")
 
-# 2 read and parse the xml file
-print("\nParsed XML data:")
-tree = ET.parse('book.xml')
-root = tree.getroot()
+    print("\nParsed CSV data:")
+    print(parse_csv('game.csv'))
 
-# iterate over the children of the root element
-for child in root:
-    print(f"Tag: {child.tag}, text: {child.text}")
+    print("\nParsed TXT data:")
+    print(parse_txt('phone.txt'))
 
+    print("\nParsed YAML data:")
+    print(parse_yaml('movie.yaml'))
 
-# 3 read and parse the csv file
-
-print("\nParsed CSV data:")
-with open('game.csv', mode='r', newline='') as file:
-    reader = csv.DictReader(file)
-    for row in reader:
-        print(row)
-
-
-# 4 read and parse the txt file
-print("\nParsed TXT data:")
-with open('phone.txt', 'r') as file:
-    phone = file.read()
-    print(phone)
-
-
-# 5 read and parse the yaml file
-print("\nParsed YAML data:")    
-
-with open('movie.yaml', 'r') as file:
-    movie = yaml.safe_load(file)
-    print(movie)
+if __name__ == "__main__":
+    main()

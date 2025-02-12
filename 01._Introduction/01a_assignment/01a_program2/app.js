@@ -50,7 +50,8 @@ app.get("/csv", async (req, res) => {
     try {
         const csvData = await readNewFile("motorcycle.csv");
 
-        const formattedData = `<pre>${csvData}</pre>`; // shameless chatGPT solution because displaying CSV sucks ...
+        // shameless GPT generated code
+        const formattedData = `<pre>${csvData}</pre>`;
 
         res.set("Content-Type", "text/html");
         res.send(formattedData);
