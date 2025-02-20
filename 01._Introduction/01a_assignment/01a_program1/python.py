@@ -1,6 +1,8 @@
 # main.py
 from file_parser import parse_json, parse_xml, parse_csv, parse_txt, parse_yaml
 
+# solution contains code from GPT
+
 def main():
     print("Parsed JSON data:")
     print(parse_json('car.json'))
