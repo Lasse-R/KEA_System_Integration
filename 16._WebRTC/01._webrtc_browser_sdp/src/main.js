@@ -2,82 +2,81 @@ import './style.css'
 
 let localStream;
 let remoteStream;
-let PeerConnection;
+let peerConnection;
 
 const servers = {
-  iceServers: [
-    {
-      urls: ['stun:stun.l.google.com:19302']
-    }
-  ]
-}
+	iceServers: [
+		{
+			urls: ['stun:stun1.l.google.com:19302']
+		}
+	]
+};
 
 async function init() {
-  localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-  document.getElementById('localVideo').srcObject = localStream;
+	localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+	document.getElementById('local-video').srcObject = localStream;
 }
 
 async function createPeerConnection(sdpOfferTextAreaId) {
-  PeerConnection = new RTCPeerConnection(servers);
+	peerConnection = new RTCPeerConnection(servers);
 
-  remoteStream = new MediaStream();
-  document.getElementById('remoteVideo').srcObject = remoteStream;
+	remoteStream = new MediaStream();
+	document.getElementById('remote-video').srcObject = remoteStream;
 
-  localStream.getTracks().forEach(track => PeerConnection.addTrack(track, localStream));
+	localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
-  // listen to remote tracks from the peer
-  PeerConnection.ontrack = (event) => { 
-    event.Streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
-  };
+	peerConnection.ontrack = event => {
+		event.streams[0].getTracks().forEach(track => remoteStream.addTrack(track));
+	};
 
-  PeerConnection.onicecandidate = (event) => {
-    if(event.candidate) {
-      document.getElementById(sdpOfferTextAreaId).textContent = JSON.stringify(PeerConnection.localDescription);
-    }
-  }
-
+	peerConnection.onicecandidate = event => {
+		if (event.candidate) {
+			document.getElementById(sdpOfferTextAreaId).textContent = JSON.stringify(peerConnection.localDescription);
+		}
+	};
 }
 
 async function createOffer() {
-  if(!localStream) {
-    return alert('no local stream');
-  }
+	if (!localStream) {
+		return;
+	}
 
-  const offer = await createPeerConnection("sdpOfferTextArea");
+	const offer = await createPeerConnection('sdpOfferTextArea');
 
-  await PeerConnection.setLocalDescription(offer);
+	await peerConnection.setLocalDescription(offer)
 }
 
 async function createAnswer() {
-  await createPeerConnection("sdpAnswerTextArea");
+	await createPeerConnection('sdpAnswerTextArea');
 
-  let offer = document.getElementById('sdpOfferTextArea').value;
-  if (!offer) return alert('no offer to answer')
-  offer = JSON.parse(offer);
+	let offer = document.getElementById('sdpOfferTextArea');
+	if (!offer) {
+		return aler('Offer is required');
+	}
+	offer = JSON.parse(offer.value);
 
-  await PeerConnection.setRemoteDescription(offer);
+	await peerConnection.setRemoteDescription(offer);
 
-  const answer = await PeerConnection.createAnswer();
-  await PeerConnection.setLocalDescription(answer);
+	const answer = await peerConnection.createAnswer();
+	await peerConnection.setLocalDescription(answer);
 
-  document.getElementById('sdpAnswerTextArea').textContent = JSON.stringify(answer);
-
+	document.getElementById('sdpAnswerTextArea').textContent = JSON.stringify(answer);
 }
 
 async function addAnswer() {
-  let answer = document.getElementById('sdpAnswerTextArea').value;
-  if (!answer) {
-      return alert('Answer is required');
-  }
-  answer = JSON.parse(answer);
+	let answer = document.getElementById('sdpAnswerTextArea').value;
+	if (!answer) {
+		return alert('Answer is required');
+	}
+	answer = JSON.parse(answer);
 
-  if (!peerConnection.currentRemoteDescription) {
-      peerConnection.setRemoteDescription(answer);
-  }
+	if (!peerConnection.currentRemoteDescription) {
+		peerConnection.setRemoteDescription(answer);
+	}
 }
 
 init();
 
-document.getElementById('createOfferButton').addEventListener('click', createOffer);
-document.getElementById('createAnswerButton').addEventListener('click', createAnswer);
-document.getElementById('addAnswerButton').addEventListener('click', addAnswer);
+document.getElementById('create-offer-button').addEventListener('click', createOffer);
+document.getElementById('create-answer-button').addEventListener('click', createAnswer);
+document.getElementById('add-answer-button').addEventListener('click', addAnswer);
