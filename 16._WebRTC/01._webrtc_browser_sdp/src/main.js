@@ -66,14 +66,14 @@ async function createAnswer() {
 
 async function addAnswer() {
   let answer = document.getElementById('sdpAnswerTextArea').value;
-  if (!answer) return alert('no answer to add');
-
+  if (!answer) {
+      return alert('Answer is required');
+  }
   answer = JSON.parse(answer);
 
-  if(!PeerConnection.currentRemoteDescription) {
-    await PeerConnection.setRemoteDescription(answer);
+  if (!peerConnection.currentRemoteDescription) {
+      peerConnection.setRemoteDescription(answer);
   }
-
 }
 
 init();
