@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+</head>
+<body>
+
+    <h2>Basic form</h2>
+    <form action="http://localhost:8000/form" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" placeholder="Usernname ...">
+
+        <label for="password">Password</label>
+        <input type="text" name="username" placeholder="Password ...">
+
+        <input type="submit" value="Send Form Data">
+    </form>
+
+    <h2>File Form</h2>
+    <form action="http://localhost:8080/fileform" method="POST" enctype="multipart/form-data">
+        <label for="file">File</label>
+        <input type="file" name="file" accept="image/*" multiple >
+
+        <label>Description</label>
+        <input type="text" name="description">
+
+        <input type="submit" value="Send File">
+        
+    </form>
+
+    <script>
+        const fileInput = document.querySelector('input[type="file"]');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            const validTypes = ['image/png', 'image/svg', 'image/jpeg'];
+
+            if (!validTypes.includes(file.type)) {
+                alert('Invalid file type. Please select a PNG, SVG, or JPEG image.');
+                fileInput.value = ''; // Clear the input
+                return;
+            }
+
+            const maxSize = 20 * 1024 * 1024; // 20 MB
+            if (file.size > maxSize) {
+                alert('File size exceeds 20 MB. Please select a smaller file.');
+                fileInput.value = ''; // Clear the input
+                return;
+            }
+        });
+    </script>
+    
+
+</body>
+</html>
