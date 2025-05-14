@@ -1,0 +1,17 @@
+{
+  "name": "10b._migrate_from_database_to_database",
+  "version": "1.0.0",
+  "description": "Folder for Database Migration assignment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "mongodb": "^6.16.0",
+    "pg": "^8.16.0"
+  }
+}
