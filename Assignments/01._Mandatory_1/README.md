@@ -1,0 +1,1 @@
+This folder contains all of the assignments from Mandatory 1
