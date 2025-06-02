@@ -1,0 +1,3 @@
+city=copenhagen
+population=638790
+founded=1167

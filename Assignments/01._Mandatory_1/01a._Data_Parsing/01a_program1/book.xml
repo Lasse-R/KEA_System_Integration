@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<book>
+    <name>The Two Towers</name>
+    <author>J. R. R. Tolkien</author>
+    <pages>352</pages>
+    <genre>fantasy</genre>
+    <price>170</price>
+</book>

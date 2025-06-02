@@ -1,0 +1,5 @@
+brand=samsung
+model=s24 ultra
+storage=256
+made=2024
+price=7000
