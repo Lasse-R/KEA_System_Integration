@@ -8,7 +8,9 @@ websocketClient.on("open", () => {
     websocketClient.on("message", (message) => {
         console.log(`message received from the server: ${message}`);
 
-        
-        // websocketClient.close();
+    });
+
+    websocketClient.on("close", () => {
+        console.log("Connection closed by the server");
     });
 });

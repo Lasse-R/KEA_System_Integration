@@ -17,7 +17,7 @@ app.get("/synchronizetime", (req, res) => {
 
 function sendTimeToClient(res) {
     const time = new Date().toISOString();
-    res.write(`data: ${time} \n\n`);
+    res.write(`data: ${time} \n\n`); // \n\n is required to signal the end of the event message
 };
 
 const PORT = Number(process.env.PORT) || 8080;
